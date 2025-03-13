@@ -2,6 +2,7 @@ package example;
 
 import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;
+import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 // import io.vertx.
 
@@ -12,6 +13,8 @@ public class VertxServer extends VerticleBase {
 
   public static void main(String[] args) {
    //  VertxApplication.main(new String[] { Server.class.getName() });
+	  Vertx vertx = Vertx.vertx();
+	  vertx.deployVerticle(new VertxServer());
   }
 
   @Override
