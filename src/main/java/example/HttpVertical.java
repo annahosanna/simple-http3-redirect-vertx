@@ -15,8 +15,8 @@ public class HttpVertical extends VerticleBase {
   }
 
   // Http
-  // @Override
-  public void start(Future<Void> future) throws Exception {
+  @Override
+  public Future<?> start() throws Exception {
     Router router = Router.router(vertx);
 
     String responseText = new String("Http Upgrade Response");
@@ -37,5 +37,5 @@ public class HttpVertical extends VerticleBase {
 
     vertx.createHttpServer().requestHandler(router).listen(8080);
   }
+  return super.start();
 }
-
