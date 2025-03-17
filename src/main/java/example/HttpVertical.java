@@ -4,15 +4,13 @@ import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
+
 // import io.vertx.
 
 /*
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 public class HttpVertical extends VerticleBase {
-
-  public HttpVertical( ){
-  }
 
   // Http
   @Override
@@ -31,11 +29,14 @@ public class HttpVertical extends VerticleBase {
           .putHeader("Strict-Transport-Security", "max-age=60000")
           .putHeader("Upgrade-Insecure-Requests", "1")
           .setStatusCode(301)
-          .putHeader("Location", routingContext.request().absoluteURI().replace("http", "https"))
+          .putHeader(
+            "Location",
+            routingContext.request().absoluteURI().replace("http", "https")
+          )
           .end(responseText);
       });
 
     vertx.createHttpServer().requestHandler(router).listen(8080);
+    return super.start();
   }
-  return super.start();
 }
