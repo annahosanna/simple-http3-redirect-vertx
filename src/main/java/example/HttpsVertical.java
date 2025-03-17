@@ -8,6 +8,10 @@ import io.vertx.core.net.KeyCertOptions;
 import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;
 import io.vertx.ext.web.Router;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.ManagerFactoryParameters;
+import io.vertx.core.net.PemKeyCertOptions;
+
 
 public class HttpsVertical extends VerticleBase {
 
@@ -24,6 +28,15 @@ public class HttpsVertical extends VerticleBase {
     secureOptions.setUseAlpn(true);
     secureOptions.setSsl(true);
 
+    // The other option is io.vertx.core.net.PemKeyCertOptions
+    PemKeyCertOptions pemKeyCertOptions = new PemKeyCertOptions();
+    pemKeyCertOptions.addCertPath("")
+    .addKeyPath("");
+    // pkcs8 pem and x509 pem
+    
+    // Which allows you to specify the path public and private key pem files
+    // Or to place the same data as is stored in the pem files into a Buffer
+    
     JksOptions keyStoreOptions = new JksOptions();
     keyStoreOptions.setPath("path/to/keystore.jks"); // Replace with your keystore path
     keyStoreOptions.setPassword("your_keystore_password"); // Replace with your keystore password
@@ -31,15 +44,18 @@ public class HttpsVertical extends VerticleBase {
    // KeyCertOptions keyCertOptions =  secureOptions.getKeyCertOptions();
 // KeyManagerFactory keyManagerFactory = keyCertOptions.getKeyManagerFactory(vertx);
     
-    secureOptions.setKeyCertOptions(keyStoreOptions);
+    secureOptions.setKeyCertOptions(pemKeyCertOptions);
     // secureOptions.setKeyStoreOptions(keyStoreOptions);
 
     JksOptions trustStoreOptions = new JksOptions();
     trustStoreOptions.setPath("path/to/truststore.jks"); // Replace with your truststore path
     trustStoreOptions.setPassword("your_truststore_password"); // Replace with your truststore password
 
-    // secureOptions.setTrustStoreOptions(trustStoreOptions);
-
+   
+    // Data type is TrustOptions, but I guess jksoptions must be a type of trustoption
+    secureOptions.setTrustOptions(trustStoreOptions);
+    // Might be hard to use localhost for certs, but editing the host file could
+    // trick a hostname into being localhost
     Router router = Router.router(vertx);
 
     String responseText = new String("Https Response");
