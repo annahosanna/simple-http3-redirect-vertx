@@ -5,8 +5,8 @@ import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.Router;
-import io.vertx.launcher.application.VertxApplication;
+import io.vertx.ext.web.*;
+// import io.vertx.launcher.application.VertxApplication;
 
 // import io.vertx.launcher.application.VertxApplication;
 
@@ -17,7 +17,9 @@ public class StartServers extends VerticleBase {
 
   public static void main(String[] args) {
     // This looks like its calling main
-    VertxApplication.main(new String[] { DeployExample.class.getName() });
+	    Vertx vertx = Vertx.vertx();
+	    vertx.deployVerticle(new StartServers());
+  // VertxApplication.main(new String[] { DeployExample.class.getName() });
   }
 
   @Override
