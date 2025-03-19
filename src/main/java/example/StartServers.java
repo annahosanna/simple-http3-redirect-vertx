@@ -14,23 +14,30 @@ import io.vertx.ext.web.*;
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 public class StartServers extends VerticleBase {
-
+// public Vertx vertx = Vertx.vertx(); 
   public static void main(String[] args) {
     // This looks like its calling main
 	    Vertx vertx = Vertx.vertx();
-	    vertx.deployVerticle(new StartServers());
-  // VertxApplication.main(new String[] { DeployExample.class.getName() });
+	    System.out.println("Deploying Verticles");
+	    vertx.deployVerticle("example.HttpVertical")
+	    .onComplete(res -> {
+	        if (res.succeeded()) {
+	          System.out.println("HTTP Deployment id is: " + res.result());
+	        } else {
+	          System.out.println("HTTP Deployment failed!");
+	          System.out.println(res.cause());
+	        }
+	      });
+	    vertx.deployVerticle("example.HttpsVertical")
+	    .onComplete(res -> {
+	        if (res.succeeded()) {
+	          System.out.println("HTTPS Deployment id is: " + res.result());
+	        } else {
+	          System.out.println("HTTPS Deployment failed!");
+	          System.out.println(res.cause());
+	        }
+	      });
+	    System.out.println("Deployed Verticles");
   }
 
-  @Override
-  public Future<?> start() throws Exception {
-    System.out.println("Deploying HTTP Verticle");
-    vertx.deployVerticle("example.HttpVertical");
-    System.out.println("Deployed HTTP Verticle");
-    System.out.println("Deploying HTTPS Verticle");
-    vertx.deployVerticle("example.HttpsVertical");
-    System.out.println("Deployed HTTPS Verticle");
-
-    return super.start();
-  }
 }
