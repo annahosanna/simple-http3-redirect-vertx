@@ -5,8 +5,8 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.VerticleBase;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.net.JksOptions;
 import io.vertx.core.net.KeyCertOptions;
 import io.vertx.core.net.PemKeyCertOptions;
@@ -21,20 +21,19 @@ import javax.net.ssl.ManagerFactoryParameters;
 
 public class HttpsVertical extends VerticleBase {
 
-//	private HttpServer server;
-
+  //	private HttpServer server;
 
   // Http
   @Override
   public Future<?> start() throws Exception {
-	  super.start();
+    super.start();
     // Vertx vertx = Vertx.vertx();
 
     HttpServerOptions secureOptions = new HttpServerOptions();
     secureOptions.setUseAlpn(true);
-    secureOptions.setSsl(true);
-    secureOptions.setKeyCertOptions(new PemKeyCertOptions().setKeyPath("key.pem").setCertPath("certs.pem"));
-        Router router = Router.router(vertx);
+    //    secureOptions.setSsl(true);
+    //    secureOptions.setKeyCertOptions(new PemKeyCertOptions().setKeyPath("key.pem").setCertPath("certs.pem"));
+    Router router = Router.router(vertx);
 
     String responseText = new String("Https Response");
     router
@@ -52,6 +51,9 @@ public class HttpsVertical extends VerticleBase {
           .end(responseText);
       });
 
-    return vertx.createHttpServer(secureOptions).requestHandler(router).listen(8443, "localhost");
+    return vertx
+      .createHttpServer(secureOptions)
+      .requestHandler(router)
+      .listen(8443, "localhost");
   }
 }
