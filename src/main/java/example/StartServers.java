@@ -6,20 +6,21 @@ import io.vertx.core.VerticleBase;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.*;
+import io.vertx.launcher.application.*;
+import io.netty.resolver.dns.macos.*;
+import io.vertx.launcher.application.VertxApplication;
+import io.vertx.core.dns.AddressResolverOptions;
 
-// import io.vertx.launcher.application.VertxApplication;
-
-// import io.vertx.launcher.application.VertxApplication;
-
-/*
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
 public class StartServers extends VerticleBase {
 
-  // public Vertx vertx = Vertx.vertx();
   public static void main(String[] args) {
+	  VertxApplication.main(new String[]{StartServers.class.getName()});
     // This looks like its calling main
-    Vertx vertx = Vertx.vertx();
+	  // -Dvertx.disableDnsResolver
+	  AddressResolverOptions addressResolverOptions = new AddressResolverOptions();
+	  
+	  VertxOptions vertxOptions = new VertxOptions().setAddressResolverOptions(addressResolverOptions);;
+    Vertx vertx = Vertx.vertx(vertxOptions);
     System.out.println("Deploying Verticles");
     vertx
       .deployVerticle("example.HttpVertical")

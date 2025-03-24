@@ -6,25 +6,15 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.net.SocketAddress;
 import io.vertx.ext.web.Router;
-// import java.net.SocketAddress;
 import java.lang.Integer;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-// import io.vertx.
-
-/*
- * @author <a href="http://tfox.org">Tim Fox</a>
- */
 public class HttpVertical extends VerticleBase {
 
-  // private HttpServer server;
-
-  // Http
   @Override
   public Future<?> start() throws Exception {
     super.start();
-    // Vertx vertx = Vertx.vertx();
     Router router = Router.router(vertx);
 
     String responseText = new String("Http Upgrade Response");
@@ -35,24 +25,20 @@ public class HttpVertical extends VerticleBase {
           .response()
           .putHeader("Content-Type", "text/plain")
           .putHeader("Content-Length", String.valueOf(responseText.length()))
-          // .putHeader("Alt-Svc", concatValue)
           .putHeader("Strict-Transport-Security", "max-age=60000")
           .putHeader("Upgrade-Insecure-Requests", "1")
-          .setStatusCode(301)
+          // Respond Upgrade Required
+          .setStatusCode(426)
           .putHeader(
             "Location",
             routingContext.request().absoluteURI().replace("http", "https")
           )
           .end(responseText);
       });
-    // InetSocketAddress bindSocketAddressInet = new InetSocketAddress(InetAddress.getByAddress(ip4AddressToByteArray("127.0.0.1")),8443);
-    // SocketAddress bindSocketAddress = SocketAddress.inetSocketAddress(bindSocketAddressInet);
     SocketAddress bindSocketAddress = SocketAddress.inetSocketAddress(
       8080,
       "127.0.0.1"
     );
-    //    server =
-    //    server.
     return vertx
       .createHttpServer()
       .requestHandler(router)

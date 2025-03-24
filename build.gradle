@@ -27,6 +27,7 @@ implementation "io.netty:netty-resolver-dns-native-macos:4.1.118.Final"
   implementation "io.vertx:vertx-web-common:5.0.0.CR5"
   implementation "io.vertx:vertx-web-client:5.0.0.CR5"
   implementation "io.vertx:vertx-web-api-service:5.0.0.CR5"
+  implementation "io.vertx:vertx-launcher-application:5.0.0.CR5"
 }
 
 configurations {
